@@ -2,7 +2,12 @@
 
 // This sketch is designed as a POC for a Simple Genetic Algorithm to find PID gain values
 
-const int init_population = 6;  // necessary for algorithm to decide how many to init for first generation
+// In Arduino, we need to be aware of memory usage, and can't just have a bunch of dynamically sized arrays floating around
+// So, we have a Population Array that is always full (size p), and a to-be-evaluated array (size q) that is always full
+// We generate a full population, sort by fitness metric, then replace the last q elements with the to-be-evaluated array before sorting again
+
+const int population_init = 6;  // necessary for algorithm to decide how many to init for first generation
+const int population_cap = 6;  // population_cap
 const float effective_range = 10; // how close does the current need to be to the target in order to succeed
 
 // for simulation purposes, these are targets for our sga to reach
@@ -52,9 +57,9 @@ void loop() {
   
   // init first generation
 
-  genome population[init_population];
+  genome population[population_cap];
 
-  for (int i=0; i<init_population; i++) {
+  for (int i=0; i<population_init; i++) {
 
     // logic for randomly spinning up first generation
 
@@ -90,5 +95,9 @@ void loop() {
     Serial.println(population[i].performance_metric);
     delay(1000);
   }
+
+
+
+
 
 }
