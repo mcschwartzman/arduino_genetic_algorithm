@@ -1,4 +1,4 @@
-#include <Arduino_Helpers.h>
+
 
 // This sketch is designed as a POC for a Simple Genetic Algorithm to find PID gain values
 
@@ -25,7 +25,7 @@ struct genome{
 
 genome g = {12, 4, 3};
 
-bool cmpfunc(genome& a, genome& b) {
+int cmpfunc(genome& a, genome& b) {
   return a.performance_metric < b.performance_metric;
 }
 
@@ -84,7 +84,7 @@ void loop() {
   
   }
   
-  std::sort(population, population_size, sizeof(genome), cmpfunc);
+  qsort(population, population_size, sizeof(genome), cmpfunc);
 
   for (int i=0;i<population_size;i++) {
     Serial.println(population[i].performance_metric);
